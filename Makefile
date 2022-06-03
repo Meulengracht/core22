@@ -1,7 +1,7 @@
 DPKG_ARCH := $(shell dpkg --print-architecture)
 LTS = jammy
 BASE := $(LTS)-base-$(DPKG_ARCH).tar.gz
-URL := http://cdimage.ubuntu.com/ubuntu-base/$(LTS)/daily/current/$(BASE)
+URL := https://cdimage.ubuntu.com/ubuntu-base/$(LTS)/daily/current/$(BASE)
 
 # dir that contans the filesystem that must be checked
 TESTDIR ?= "prime/"
