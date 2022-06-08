@@ -166,6 +166,15 @@ handle_writable_defaults()
         touch "$srcpath/.done"
 }
 
+mount_ubuntu_save()
+{
+	# if /run/mnt/ubuntu-save is not mounted then return
+	if ! mountpoint -q /run/mnt/ubuntu-save; then
+		return
+	fi
+	echo "/run/mnt/ubuntu-save /var/lib/snapd/save none bind,rw 0 0" >> "$1"
+}
+
 main()
 {
 	writable_paths="${1:-${rootmnt}/etc/system-image/writable-paths}"
@@ -181,7 +190,7 @@ main()
 		echo "/dev/root / rootfs defaults,ro 0 0" >> "$fstab"
 		handle_writable_paths "$writable_paths" "$fstab"
 		echo "/run/mnt/ubuntu-seed /var/lib/snapd/seed none bind,ro 0 0" >> "$fstab"
-		echo "/run/mnt/ubuntu-save /var/lib/snapd/save none bind,rw 0 0" >> "$fstab"
+		mount_ubuntu_save "$fstab"
 	fi
 
 	# IMPORTANT: ensure we synced everything back to disk
