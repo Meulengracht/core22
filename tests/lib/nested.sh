@@ -112,7 +112,7 @@ prepare_tpm(){
                     snap start test-snapd-swtpm > /dev/null
                 fi
             else
-                snap install test-snapd-swtpm --edge
+                snap install test-snapd-swtpm --edge >/dev/null
             fi
         fi
 
@@ -124,13 +124,13 @@ prepare_tpm(){
         else
             PARAM_TPM="$PARAM_TPM -device tpm-tis,tpmdev=tpm0"
         fi
-        snap install test-snapd-swtpm --beta
+        snap install test-snapd-swtpm --beta >/dev/null
         retry=60
         while ! test -S "$TPMSOCK_PATH"; do
             retry=$(( retry - 1 ))
             if [ $retry -le 0 ]; then
                 echo "Timed out waiting for the swtpm socket. Aborting!"
-                return 1
+                exit 1
             fi
             sleep 1
         done
