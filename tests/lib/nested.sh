@@ -299,6 +299,8 @@ start_nested_core_vm_unit(){
 
     # Wait until ssh is ready
     if ! wait_for_ssh "${SVC_NAME}"; then
+        # dump the logs
+        cat ${WORK_DIR}/serial.log
         return 1
     fi
 }
